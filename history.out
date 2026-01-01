@@ -1,0 +1,59 @@
+    1  sudo groupadd student
+    2  getent group student
+    3  sudo groupmod -n students student
+    4  getent group students
+    5  sudo useradd -u 1234 -g students -m -s /bin/bash user1
+    6  id user1
+    7  sudo passwd user1
+    8  sudo chage -M 90 user1
+    9  sudo chage -l user1
+   10  id user1
+   11  sudo userdel -r user1
+   12  sudo groupdel student
+   13  sudo groupdel students
+   14  rm -f ~/stat.out ~/group.out ~/setuid_files.out ~/suid_processes.out
+   15  sudo groupadd students
+   16  sudo useradd -u 1234 -g students -m -s /bin/bash user1
+   17  sudo passwd user1
+   18  sudo chage -l user1
+   19  sudo chage -M 90 user1
+   20  sudo chage -l user1
+   21  id user1
+   22  sudo find / -perm -4000 -type f 2>/dev/null > ~/setuid_files.out
+   23  cat ~/setuid_files.out
+   24  ps -eo pid,ruid,euid,comm | awk '$3==0 && $2!=0'
+   25  ps -eo pid,ruid,euid,comm | awk '$3==0 && $2!=0' > ~/suid_processes.out
+   26  sudo -u user1 cat /etc/shadow
+   27  sudo cp /bin/cat /home/user1/mysu_cat
+   28  sudo chown root:root /home/user1/mysu_cat
+   29  sudo chmod 4755 /home/user1/mysu_cat
+   30  ls -l /home/user1/mysu_cat
+   31  sudo ls -l /home/user1/mysu_cat
+   32  sudo -u usre1 /home/user1/mysu_cat /etc/shadow
+   33  sudo -u user1 /home/user1/mysu_cat /etc/shadow
+   34  sudo -u user1 touch /home/user1/testfile
+   35  sudo -u user1 chown root:root /home/user1/testfile
+   36  sudo cp /bin/chown /home/user1/mychown
+   37  sudo setcap cap_chown=ep /home/user1/mychown
+   38  getcap /home/user/mychown > ~/getcap.out
+   39  cat ~/getcap.out
+   40  sudo ls -l /home/user1/mychown
+   41  sudo setcap cap_chown=ep /home/user1/mychown
+   42  getcap /home/user1/mychown > ~/getcap.out
+   43  cat ~/getcap.out
+   44  sudo getcap /home/user1/mychown cap_chown=ep
+   45  sudo getcap /home/user1/mychown > ~/getcap.out
+   46  sudo -u user1 /home/user1/mychown root:root /home/user/testfile
+   47  sudo -u user1 /home/user1/mychown root:root /home/user1/testfile
+   48  sudo ls -l /home/user1/testfile
+   49  sudo stat /home/user1/mychown >> ~/stat.out
+   50  sudo timedatectl set-ntp false
+   51  echo 'user1 ALL=(root) /usr/bin/date, /usr/bin/tamedatectl, /bin/date' | sudo tee /etc/sudoers.d/user1-time
+   52  sudo chmod 440 /etc/sudoers.d/user1-time
+   53  sudo visudo -c
+   54  sudo -u user1 sudo /usr/bin/date -s '2026-01-01 12:00:00'
+   55  cp /etc/sudoers.d/user1-time ~/sudoers_user1.out
+   56  sudo cp /etc/sudoers.d/user1-time ~/sudoers_user1.out
+   57  sudo cp /etc/sudoers ~/sudoers.out
+   58  sudo ls -l /etc/sudoers.d/user1-time
+   59  history > ~/history.out
